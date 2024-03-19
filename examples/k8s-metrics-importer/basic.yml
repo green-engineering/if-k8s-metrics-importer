@@ -48,10 +48,7 @@ initialize:
     csv-exporter:
       method: CsvExport
       path: "@grnsft/if-plugins"
-
-    sum:
-      path: "@grnsft/if-plugins"
-      method: Sum
+      
 tree:
   children:
     cluster:
@@ -73,10 +70,6 @@ tree:
         grid/carbon-intensity: 800
         cpu/thermal-design-power: 30
       config:
-        "sum":
-          input-parameters: 
-          - cpu/energy
-          - network/energy
         output-parameter: energy 
         sci:
           functional-unit-time: 1 sec
