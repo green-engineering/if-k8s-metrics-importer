@@ -39,8 +39,8 @@ export const K8sMetricsImporter = (
     let k8sHostURL = '';
     if (mergedConfig['k8s-host-url']) {
       k8sHostURL = mergedConfig['k8s-host-url'];
-    } else if (process.env.K8S_METRICS_URL) {
-      k8sHostURL = process.env.K8S_METRICS_URL;
+    } else if (process.env.K8S_HOST_URL) {
+      k8sHostURL = process.env.K8S_HOST_URL;
     } else {
       k8sHostURL = 'https://localhost:6443';
     }

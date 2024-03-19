@@ -29,7 +29,7 @@ describe('lib/k8s-metrics-importer: ', () => {
         const inputs = [{}];
 
         process.env.K8S_TOKEN = '';
-        process.env.K8S_METRICS_URL = '';
+        process.env.K8S_HOST_URL = '';
         try {
           const response = await pluginInstance.execute(inputs, {});
           expect(response).toThrow;
