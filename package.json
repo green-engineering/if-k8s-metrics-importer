@@ -1,5 +1,5 @@
 {
-  "name": "k8s-metrics-importer",
+  "name": "if-k8s-metrics-importer",
   "description": "Impact Framework Kubernetes Metrics Importer Plugin",
   "version": "v0.1.0",
   "author": {
