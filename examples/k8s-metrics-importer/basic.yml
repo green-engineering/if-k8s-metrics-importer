@@ -8,22 +8,93 @@ initialize:
       path: "k8s-metrics-importer"
       global-config:
         token: eyJhbGciOiJSUzI1NiIsImtpZCI6IkJLSTF4aXNxbGZDZlBxUWJRVmQzN0dLbWFPSEE3ekFsMDAzMEVhWjhnZUUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjo1MzA5NTUyNjczLCJpYXQiOjE3MDk1NTYyNzMsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6Im1ldHJpY3MtcmVhZGVyLXNhIiwidWlkIjoiMGIwMzYzODEtNzQ0Yi00ZGFjLTkzNTgtY2Y0NzU3OTcwNDYzIn19LCJuYmYiOjE3MDk1NTYyNzMsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Om1ldHJpY3MtcmVhZGVyLXNhIn0.XR1-PdIxeaOHXkhhVWLux7fBnDu4zxe6yrVbdEUIfNwPushfpZDVVU7dznGnTKI-dJ18-96tomJ0i_EmN9KMHb_cd433QUUHKCw19vJSy6Hh7Q8LF0zeSzimfgKAYgdXRNJxL0zRCyZgqro-lRjbKXxic51OQ2LJtiy_s_TQEFnd80CnYlr2ImlauIbsLX7rbDeuqzlwLpAWqOOCNoo2t2bsPSrnpotTxeNX5j7goC5SXtmLB3oVGPuIgjjJXd-98_xp8an-ERbs96NGH3V5Y0-1-Sbe93tQH_qU1M8xim1WRL0W9x2cA2VH6Eo_-C3ngKzkLDaW-6r_Drk1v_ulPA
-        k8s-metrics-url: https://localhost:6443/apis/metrics.k8s.io/v1beta1/pods
-        k8s-host-cores: 10
+        k8s-host-url: https://localhost:6443
+    e-mem:
+      method: EMem
+      path: "@grnsft/if-plugins"
+      global-config:
+        energy-per-gb: 0.000392 
+    e-net:
+      method: ENet
+      path: '@grnsft/if-plugins'
+      global-config:
+        energy-per-gb: 0.001
+    sci-e:
+      kind: plugin
+      method: SciE
+      path: "@grnsft/if-plugins"
+    sci-o:
+      verbose: false
+      method: SciO
+      path: "@grnsft/if-plugins"
+    sci-m: # a model that calculates m from te, tir, el, rr and rtor
+      method: SciM
+      verbose: false
+      path: "@grnsft/if-plugins"
+    sci:
+      kind: plugin
+      method: Sci
+      path: "@grnsft/if-plugins"
+      global-config:
+        functional-unit: ''
+        functional-unit-time: '1-second'
+
+    teads-curve:
+      method: TeadsCurve
+      path: "@grnsft/if-unofficial-plugins"
+      global-config:
+        interpolation: spline
+
+    csv-exporter:
+      method: CsvExport
+      path: "@grnsft/if-plugins"
+
     sum:
       path: "@grnsft/if-plugins"
       method: Sum
-      global-config:
-        input-parameters:
-          - cpu-usage
-          - cpu-usage
-        output-parameter: energy
 tree:
   children:
     cluster:
       pipeline:
       - k8s-metrics-importer
-      - sum
+      - teads-curve
+      - e-mem
+      - sci-m
+      - sci-e
+      - sci-o
+      - sci
+      # - csv-exporter
+      defaults:
+        device/emissions-embodied: 1533.120 # gCO2eq
+        time-reserved: 15 # 1hr in seconds
+        device/expected-lifespan: 94608000 # 3 years in seconds
+        resources-reserved: 1
+        resources-total: 1
+        grid/carbon-intensity: 800
+        cpu/thermal-design-power: 30
+      config:
+        "sum":
+          input-parameters: 
+          - cpu/energy
+          - network/energy
+        output-parameter: energy 
+        sci:
+          functional-unit-time: 1 sec
+          functional-unit: requests # factor to convert per time to per f.unit
+        csv-exporter:
+          output-path: ./csv-test.csv
+          headers:
+            - timestamp
+            - duration
+            - carbon
+            - energy
+            - pod-name
+            - container-name
+            - namespace
+            - label-k8s-app
+            - k8s-cpu-usage
+            - cpu-usage
+            - k8s-memory-usage
       inputs:
 
           
