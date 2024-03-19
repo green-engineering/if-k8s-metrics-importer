@@ -1,0 +1,30 @@
+name: k8s-metrics-importer-example
+description: k8s-metrics-importer-example
+tags:
+initialize:
+  plugins:
+    k8s-metrics-importer:
+      method: K8sMetricsImporter
+      path: "k8s-metrics-importer"
+      global-config:
+        token: eyJhbGciOiJSUzI1NiIsImtpZCI6IkJLSTF4aXNxbGZDZlBxUWJRVmQzN0dLbWFPSEE3ekFsMDAzMEVhWjhnZUUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjo1MzA5NTUyNjczLCJpYXQiOjE3MDk1NTYyNzMsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6Im1ldHJpY3MtcmVhZGVyLXNhIiwidWlkIjoiMGIwMzYzODEtNzQ0Yi00ZGFjLTkzNTgtY2Y0NzU3OTcwNDYzIn19LCJuYmYiOjE3MDk1NTYyNzMsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0Om1ldHJpY3MtcmVhZGVyLXNhIn0.XR1-PdIxeaOHXkhhVWLux7fBnDu4zxe6yrVbdEUIfNwPushfpZDVVU7dznGnTKI-dJ18-96tomJ0i_EmN9KMHb_cd433QUUHKCw19vJSy6Hh7Q8LF0zeSzimfgKAYgdXRNJxL0zRCyZgqro-lRjbKXxic51OQ2LJtiy_s_TQEFnd80CnYlr2ImlauIbsLX7rbDeuqzlwLpAWqOOCNoo2t2bsPSrnpotTxeNX5j7goC5SXtmLB3oVGPuIgjjJXd-98_xp8an-ERbs96NGH3V5Y0-1-Sbe93tQH_qU1M8xim1WRL0W9x2cA2VH6Eo_-C3ngKzkLDaW-6r_Drk1v_ulPA
+        k8s-metrics-url: https://localhost:6443/apis/metrics.k8s.io/v1beta1/pods
+        k8s-host-cores: 10
+    sum:
+      path: "@grnsft/if-plugins"
+      method: Sum
+      global-config:
+        input-parameters:
+          - cpu-usage
+          - cpu-usage
+        output-parameter: energy
+tree:
+  children:
+    cluster:
+      pipeline:
+      - k8s-metrics-importer
+      - sum
+      inputs:
+
+          
+

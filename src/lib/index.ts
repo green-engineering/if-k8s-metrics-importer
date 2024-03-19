@@ -1,1 +1,1 @@
-export {MyCustomPlugin} from './my-custom-plugin';
+export {K8sMetricsImporter} from './k8s-metrics-importer';
