@@ -33,8 +33,7 @@
     "npm": ">=8"
   },
   "files": [
-    "build/**",
-    "src/**"
+    "**"
   ],
   "keywords": [],
   "license": "MIT",
