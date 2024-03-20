@@ -32,10 +32,15 @@
     "node": ">=18",
     "npm": ">=8"
   },
+  "files": [
+    "build/**",
+    "src/**"
+  ],
   "keywords": [],
   "license": "MIT",
   "main": "build/index.js",
   "repository": {
+    "type": "git",
     "url": "https://github.com/nb-green-ops/if-k8s-metrics-importer.git"
   },
   "scripts": {
