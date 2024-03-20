@@ -7,7 +7,7 @@ node_modules
 *.tsbuildinfo
 dist
 yarn-error.log
-build
+# build
 coverage
 .env
 
