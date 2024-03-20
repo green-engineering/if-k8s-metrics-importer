@@ -31,9 +31,11 @@ export const K8sMetricsImporter = (
     } else if (process.env.K8S_TOKEN) {
       token = process.env.K8S_TOKEN;
     } else {
-      throw new Error(
-        'No auth token defined. Please set the auth token via the "token" config parameter or set the "K8S_TOKEN" environment variable'
-      );
+      console.log('No token set. we wont generate or add anything...');
+    }
+
+    if (token === '') {
+      return inputs;
     }
 
     let k8sHostURL = '';
