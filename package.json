@@ -33,7 +33,12 @@
     "npm": ">=8"
   },
   "files": [
-    "**"
+    "**",
+    "*",
+    "build",
+    "src",
+    "package.json",
+    "ts**"
   ],
   "keywords": [],
   "license": "MIT",
