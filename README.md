@@ -6,11 +6,11 @@
 
 **Index.ts **
 We host the k8s-metrics-importer plugin in the index.ts file. This is where we run the queries that fetch our key metrics from Kubernetes
- (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts at main · nb-green-ops/if-k8s-metrics-importer (github.com)). 
+ (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). 
  
 There are three main functions to note
 
-**getNodeTotalCPU ** which returns the total CPU usage for the node. This can be a virtual machine.  
+**getNodeTotalCPU** which returns the total CPU usage for the node. This can be a virtual machine.  
 
 ```typescript 
 function getNodeTotalCPU(nodes: any[], nodeName: any) { 
