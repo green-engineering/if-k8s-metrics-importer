@@ -1,12 +1,78 @@
-# if-plugin-template
+# if-k8s-metrics-importer
 
-`if-plugin-template` is an environmental impact calculator template which exposes an API for [IF](https://github.com/Green-Software-Foundation/if) to retrieve energy and embodied carbon estimates.
+`if-k8s-metrics-importer ` is an importer plugin which pulls key metrics from Kubernetes (K8s). We look at metrics from the nodes, then drill down to pods and container level metrics. Once we receive the metrics, we make use of the environmental impact calculator which exposes an API for the Impact Framework [IF](https://github.com/Green-Software-Foundation/if) to retrieve energy and embodied carbon estimates.
 
 ## Implementation
 
-Here can be implementation details of the plugin. For example which API is used, transformations and etc.
+**Index.ts **
+We host the k8s-metrics-importer plugin in the index.ts file. This is where we run the queries that fetch our key metrics from Kubernetes
+ (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts at main · nb-green-ops/if-k8s-metrics-importer (github.com)). 
+ 
+There are three main functions to note
+
+**getNodeTotalCPU ** which returns the total CPU usage for the node. This can be a virtual machine.  
+
+```typescript 
+function getNodeTotalCPU(nodes: any[], nodeName: any) { 
+      let output = 1; 
+      nodes.forEach(node => { 
+        if (node['metadata']['name'] === nodeName) { 
+          output = parseInt(node['status']['capacity']['cpu']); 
+        } 
+      }); 
+      return output; 
+    } 
+```
+
+**getNodeTotalMemory** which returns the total CPU usage for the node. This can be a virtual machine. 
+ 
+```typescript 
+function getNodeTotalMemory(nodes: any[], nodeName: any) { 
+      let output = 1000000; 
+      nodes.forEach(node => { 
+        if (node['metadata']['name'] === nodeName) { 
+          output = parseInt( 
+            node['status']['capacity']['memory'].match(/(\d+)/)[0] 
+          ); 
+        } 
+      }); 
+      return output; 
+```
+
+**getPodNodeName** which returns the names of the pods. Remember that one node can have multiple pods, and each pod has its own container. 
+
+```typescript 
+function getPodNodeName(pods: any[], podName: any) { 
+      let output = 'default'; 
+      pods.forEach(pod => { 
+        if (pod['metadata']['name'] === podName) { 
+          // console.log('gotenm', pod['metadata']['name']); 
+          output = pod['spec']['nodeName']; 
+        } 
+      }); 
+      return output; 
+    } 
+```
+
 
 ## Usage
+
+Once you're happy with the k8s importer plugin, we can then use this in the basic.yml file if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)). We reference the k8s-metrics-importer file together with other plugins. 
+
+
+```yaml 
+plugins: 
+    if-k8s-metrics-importer: 
+      method: K8sMetricsImporter 
+      path: "if-k8s-metrics-importer" 
+      global-config: 
+        token: [YOUR K8s TOKEN GOES HERE] 
+        k8s-host-url: https://localhost:6443 
+``` 
+
+Please note, to recieve a Kubernetes token you will need to create your own kubernetes service account. A service account is a non-human account that provides a distinct identity in a Kubernetes cluster. Service accounts are managed by the Kubernetes API and are bound to specific namespaces. They are used to provide an identity for pods that want to interact with the API server. Service account credentials are stored as Kubernetes secrets, which are mounted into pods to allow in-cluster processes to talk to the Kubernetes API. 
+
+EVERYTHING BELOW IS A WORK IN PROGRESS
 
 To run the `<YOUR-CUSTOM-PLUGIN>`, an instance of `PluginInterface` must be created. Then, the plugin's `execute()` method can be called, passing required arguments to it.
 
