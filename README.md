@@ -1,9 +1,11 @@
 # if-k8s-metrics-importer
 
-`if-k8s-metrics-importer ` is an importer plugin which pulls key metrics from Kubernetes (K8s). We look at metrics from the nodes, then drill down to pods and container level metrics. Once we receive the metrics, we make use of the environmental impact calculator which exposes an API for the Impact Framework [IF](https://github.com/Green-Software-Foundation/if) to retrieve energy and embodied carbon estimates.
+`if-k8s-metrics-importer ` is an importer plugin which pulls key metrics from Kubernetes (K8s). We look at metrics from the nodes, then drill down to pods and container level metrics.
 
-![image description] (https://github.com/nb-green-ops/if-k8s-metrics-importer/blob/main/k8s_importer_image_one.png)
+![k8s importer image one](https://github.com/nb-green-ops/if-k8s-metrics-importer/assets/136962406/ead2fed8-2212-4182-8fde-d0b48b9ca929)
 
+Once we receive the metrics, we make use of the environmental impact calculator which exposes an API for the Impact Framework [IF](https://github.com/Green-Software-Foundation/if) to retrieve energy and embodied carbon estimates.
+ 
 ## Implementation
 
 **Index.ts**
