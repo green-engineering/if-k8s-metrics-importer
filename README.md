@@ -4,7 +4,7 @@
 
 ## Implementation
 
-**Index.ts **
+**Index.ts**
 We host the k8s-metrics-importer plugin in the index.ts file. This is where we run the queries that fetch our key metrics from Kubernetes
  (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). 
  
@@ -57,7 +57,7 @@ function getPodNodeName(pods: any[], podName: any) {
 
 ## Usage
 
-Once you're happy with the k8s importer plugin, we can then use this in the basic.yml file if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)). We reference the k8s-metrics-importer file together with other plugins. 
+Once you're happy with the k8s importer plugin, we can then use this in the 'basic.yml' file (if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)). We reference the k8s-metrics-importer file together with other plugins. 
 
 
 ```yaml 
