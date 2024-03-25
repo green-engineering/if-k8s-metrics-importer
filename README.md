@@ -8,9 +8,23 @@ Once we receive the metrics, we make use of the environmental impact calculator 
  
 ## Implementation
 
-**Index.ts**
-
 We host the k8s-metrics-importer plugin in the `index.ts` [file](https://github.com/nb-green-ops/if-k8s-metrics-importer/blob/main/src/lib/k8s-metrics-importer/index.ts). This is where we run queries that fetch our key metrics from Kubernetes. We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
+
+The following metrics are returned from the importer.
+| Metrics returned by the importer | Description |
+| --- | --- |
+| `k8s/node/name` | Name of the Kubernetes node |
+| `k8s/pod/name` | Name of the Kubernetes pod |
+| `k8s/container/name` | Name of the container within the pod |
+| `k8s/namespace` | Namespace in which the pod resides |
+| `k8s/label/k8s-app` | Value of the ‘k8s-app’ label attached to the pod |
+| `timestamp` | Timestamp associated with the pod |
+| `duration` | Duration of the pod’s window, parsed as a float |
+| `k8s/cpu/utilization` | CPU utilization of the container, extracted from the usage data |
+| `cpu/utilization` | CPU utilization of the container as a proportion of the total CPU available on the node |
+| `k8s/memory/utilization` | Memory utilization of the container, extracted from the usage data |
+| `memory/utilization` | Memory utilization of the container as a proportion of the total memory available on the node |
+| `memory/capacity` | Total memory capacity of the node |
 
 
 ## Usage
@@ -29,35 +43,7 @@ plugins:
         k8s-host-url: https://localhost:6443 
 ``` 
 
-
-
-EVERYTHING BELOW IS A WORK IN PROGRESS
-
-To run the `<YOUR-CUSTOM-PLUGIN>`, an instance of `PluginInterface` must be created. Then, the plugin's `execute()` method can be called, passing required arguments to it.
-
-This is how you could run the model in Typescript:
-
-```typescript
-async function runPlugin() {
-  const newModel = await new MyCustomPlugin().configure(params);
-  const usage = await newModel.calculate([
-    {
-      timestamp: '2021-01-01T00:00:00Z',
-      duration: '15s',
-      'cpu-util': 34,
-    },
-    {
-      timestamp: '2021-01-01T00:00:15Z',
-      duration: '15s',
-      'cpu-util': 12,
-    },
-  ]);
-
-  console.log(usage);
-}
-
-runPlugin();
-```
+To run the `if-k8s-metrics-importer`, an instance of `PluginInterface` must be created. Then, the plugin's `execute()` method can be called, passing required arguments to it.
 
 ## Testing model integration
 
