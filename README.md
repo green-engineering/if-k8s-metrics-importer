@@ -10,12 +10,12 @@ Once we receive the metrics, we make use of the environmental impact calculator 
 
 **Index.ts**
 
-We host the k8s-metrics-importer plugin in the `index.ts` [file](if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). This is where we run queries that fetch our key metrics from Kubernetes. We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
+We host the k8s-metrics-importer plugin in the `index.ts` [file](https://github.com/nb-green-ops/if-k8s-metrics-importer/blob/main/src/lib/k8s-metrics-importer/index.ts). This is where we run queries that fetch our key metrics from Kubernetes. We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
 
 
 ## Usage
 
-We reference the k8s-metrics-importer plugin in the `basic.yml` [file](if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml).
+We reference the k8s-metrics-importer plugin in the `basic.yml` [file](https://github.com/nb-green-ops/if-k8s-metrics-importer/blob/main/examples/k8s-metrics-importer/basic.yml).
 
 Please note, to recieve a Kubernetes token you will need to create your own kubernetes service account. A service account is a non-human account that provides a distinct identity in a Kubernetes cluster. Service accounts are managed by the Kubernetes API and are bound to specific namespaces. They are used to provide an identity for pods that want to interact with the API server. Service account credentials are stored as Kubernetes secrets, which are mounted into pods to allow in-cluster processes to talk to the Kubernetes API. 
 
