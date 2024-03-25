@@ -9,60 +9,13 @@ Once we receive the metrics, we make use of the environmental impact calculator 
 ## Implementation
 
 **Index.ts**
-We host the k8s-metrics-importer plugin in the index.ts file. This is where we run the queries that fetch our key metrics from Kubernetes
- (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). 
- 
-There are three main functions to note
 
-**getNodeTotalCPU** which returns the total CPU usage for the node. This can be a virtual machine.  
-
-```typescript 
-function getNodeTotalCPU(nodes: any[], nodeName: any) { 
-      let output = 1; 
-      nodes.forEach(node => { 
-        if (node['metadata']['name'] === nodeName) { 
-          output = parseInt(node['status']['capacity']['cpu']); 
-        } 
-      }); 
-      return output; 
-    } 
-```
-
-**getNodeTotalMemory** which returns the total CPU usage for the node. This can be a virtual machine. 
- 
-```typescript 
-function getNodeTotalMemory(nodes: any[], nodeName: any) { 
-      let output = 1000000; 
-      nodes.forEach(node => { 
-        if (node['metadata']['name'] === nodeName) { 
-          output = parseInt( 
-            node['status']['capacity']['memory'].match(/(\d+)/)[0] 
-          ); 
-        } 
-      }); 
-      return output; 
-```
-
-**getPodNodeName** which returns the names of the pods. Remember that one node can have multiple pods, and each pod has its own container. 
-
-```typescript 
-function getPodNodeName(pods: any[], podName: any) { 
-      let output = 'default'; 
-      pods.forEach(pod => { 
-        if (pod['metadata']['name'] === podName) { 
-          // console.log('gotenm', pod['metadata']['name']); 
-          output = pod['spec']['nodeName']; 
-        } 
-      }); 
-      return output; 
-    } 
-```
+We host the k8s-metrics-importer plugin in the index.ts file. This is where we run queries that fetch our key metrics from Kubernetes (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
 
 
 ## Usage
 
-Once you're happy with the k8s importer plugin, we can then use this in the 'basic.yml' file (if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)). We reference the k8s-metrics-importer file together with other plugins. 
-
+We reference the k8s-metrics-importer plugin in the 'basic.yml' file (if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)).
 
 ```yaml 
 plugins: 
