@@ -1,6 +1,6 @@
 # if-k8s-metrics-importer
 
-`if-k8s-metrics-importer ` is an importer plugin which pulls key metrics from Kubernetes (K8s). We look at metrics from the nodes, then drill down to pods and container level metrics.
+`if-k8s-metrics-importer` is an importer plugin which pulls key metrics from Kubernetes (K8s). We look at metrics from the nodes, then drill down to pods and container level metrics.
 
 ![k8s importer image one](https://github.com/nb-green-ops/if-k8s-metrics-importer/assets/136962406/ead2fed8-2212-4182-8fde-d0b48b9ca929)
 
@@ -10,12 +10,14 @@ Once we receive the metrics, we make use of the environmental impact calculator 
 
 **Index.ts**
 
-We host the k8s-metrics-importer plugin in the index.ts file. This is where we run queries that fetch our key metrics from Kubernetes (if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
+We host the k8s-metrics-importer plugin in the `index.ts` [file](if-k8s-metrics-importer/src/lib/k8s-metrics-importer/index.ts). This is where we run queries that fetch our key metrics from Kubernetes. We use the k8s metrics-server and standard k8s rest api's to pull the cpu and memory usage per container and get the node and pod details. 
 
 
 ## Usage
 
-We reference the k8s-metrics-importer plugin in the 'basic.yml' file (if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml at main · nb-green-ops/if-k8s-metrics-importer (github.com)).
+We reference the k8s-metrics-importer plugin in the `basic.yml` [file](if-k8s-metrics-importer/examples/k8s-metrics-importer/basic.yml).
+
+Please note, to recieve a Kubernetes token you will need to create your own kubernetes service account. A service account is a non-human account that provides a distinct identity in a Kubernetes cluster. Service accounts are managed by the Kubernetes API and are bound to specific namespaces. They are used to provide an identity for pods that want to interact with the API server. Service account credentials are stored as Kubernetes secrets, which are mounted into pods to allow in-cluster processes to talk to the Kubernetes API. 
 
 ```yaml 
 plugins: 
@@ -27,7 +29,7 @@ plugins:
         k8s-host-url: https://localhost:6443 
 ``` 
 
-Please note, to recieve a Kubernetes token you will need to create your own kubernetes service account. A service account is a non-human account that provides a distinct identity in a Kubernetes cluster. Service accounts are managed by the Kubernetes API and are bound to specific namespaces. They are used to provide an identity for pods that want to interact with the API server. Service account credentials are stored as Kubernetes secrets, which are mounted into pods to allow in-cluster processes to talk to the Kubernetes API. 
+
 
 EVERYTHING BELOW IS A WORK IN PROGRESS
 
